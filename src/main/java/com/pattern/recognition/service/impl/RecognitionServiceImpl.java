@@ -1,10 +1,9 @@
 package com.pattern.recognition.service.impl;
 
 import com.pattern.recognition.exception.SpacePointAlreadyRegisteredException;
-import com.pattern.recognition.model.SpacePointRequest;
 import com.pattern.recognition.model.SpaceLine;
 import com.pattern.recognition.model.SpacePoint;
-import com.pattern.recognition.model.SpaceResponse;
+import com.pattern.recognition.model.SpacePointRequest;
 import com.pattern.recognition.service.RecognitionService;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -28,13 +27,14 @@ public class RecognitionServiceImpl implements RecognitionService {
         log.info("Adding {} point to the space", spacePoint);
 
         if (!space.add(spacePoint)) {
-            throw new SpacePointAlreadyRegisteredException(String.format("The input point %s was already inside the space", spacePoint));
+            throw new SpacePointAlreadyRegisteredException(String
+                    .format("The input point %s was already inside the space", spacePoint));
         }
     }
 
     @Override
     public SortedSet<SpacePoint> retrieveSpace() {
-        log.info("Retrieve space: [{}]", space);
+        log.info("Retrieve space: {}", space);
         return space;
     }
 
