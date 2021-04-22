@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class RecognitionRequest {
+public class SpacePointRequest {
 
     private int x;
     private int y;

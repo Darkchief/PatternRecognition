@@ -1,6 +1,6 @@
 package com.pattern.recognition.controller;
 
-import com.pattern.recognition.model.RecognitionRequest;
+import com.pattern.recognition.model.SpacePointRequest;
 import com.pattern.recognition.model.SpaceLine;
 import com.pattern.recognition.model.SpacePoint;
 import org.springframework.http.MediaType;
@@ -14,7 +14,7 @@ public interface RecognitionProvider {
     @PostMapping(value = "/point",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Void> addPointInSpace(@RequestBody RecognitionRequest request);
+    ResponseEntity<Void> addPointInSpace(@RequestBody SpacePointRequest request);
 
     @GetMapping(value = "/space",
             produces = MediaType.APPLICATION_JSON_VALUE)

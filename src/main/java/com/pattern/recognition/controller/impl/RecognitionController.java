@@ -1,7 +1,7 @@
 package com.pattern.recognition.controller.impl;
 
 import com.pattern.recognition.controller.RecognitionProvider;
-import com.pattern.recognition.model.RecognitionRequest;
+import com.pattern.recognition.model.SpacePointRequest;
 import com.pattern.recognition.model.SpaceLine;
 import com.pattern.recognition.model.SpacePoint;
 import com.pattern.recognition.service.RecognitionService;
@@ -25,7 +25,7 @@ public class RecognitionController implements RecognitionProvider {
     private RecognitionService recognitionService;
 
     @Override
-    public ResponseEntity<Void> addPointInSpace(RecognitionRequest request) {
+    public ResponseEntity<Void> addPointInSpace(SpacePointRequest request) {
         recognitionService.addPointInSpace(request);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

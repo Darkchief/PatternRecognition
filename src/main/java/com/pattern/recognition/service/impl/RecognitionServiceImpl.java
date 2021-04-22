@@ -1,8 +1,10 @@
 package com.pattern.recognition.service.impl;
 
-import com.pattern.recognition.model.RecognitionRequest;
+import com.pattern.recognition.exception.SpacePointAlreadyRegisteredException;
+import com.pattern.recognition.model.SpacePointRequest;
 import com.pattern.recognition.model.SpaceLine;
 import com.pattern.recognition.model.SpacePoint;
+import com.pattern.recognition.model.SpaceResponse;
 import com.pattern.recognition.service.RecognitionService;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -21,13 +23,12 @@ public class RecognitionServiceImpl implements RecognitionService {
     private SortedSet<SpacePoint> space;
 
     @Override
-    public void addPointInSpace(RecognitionRequest request) {
-        SpacePoint point = new SpacePoint(request.getX(), request.getY());
+    public void addPointInSpace(SpacePointRequest request) {
+        SpacePoint spacePoint = new SpacePoint(request.getX(), request.getY());
+        log.info("Adding {} point to the space", spacePoint);
 
-        log.info("Adding {} point to the space", point);
-
-        if (!space.add(point)) {
-            log.info("The input point {} was already inside the space", point);
+        if (!space.add(spacePoint)) {
+            throw new SpacePointAlreadyRegisteredException(String.format("The input point %s was already inside the space", spacePoint));
         }
     }
 
@@ -47,6 +48,4 @@ public class RecognitionServiceImpl implements RecognitionService {
         log.info("Delete all points from space");
         space = new TreeSet<>();
     }
-
 }
-
