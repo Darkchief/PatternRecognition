@@ -2,7 +2,8 @@ package com.pattern.recognition.controller.impl;
 
 import com.pattern.recognition.controller.RecognitionProvider;
 import com.pattern.recognition.model.RecognitionRequest;
-import com.pattern.recognition.model.RecognitionResponse;
+import com.pattern.recognition.model.SpaceLine;
+import com.pattern.recognition.model.SpacePoint;
 import com.pattern.recognition.service.RecognitionService;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.SortedSet;
 
 @Slf4j
 @Setter
@@ -22,16 +25,25 @@ public class RecognitionController implements RecognitionProvider {
     private RecognitionService recognitionService;
 
     @Override
-    public ResponseEntity<RecognitionResponse> addPoint(RecognitionRequest request) {
-        log.info("Add new point to the plane");
-        ResponseEntity responseEntity;
-        try {
-            recognitionService.addPoint(request);
-            responseEntity = ResponseEntity.status(HttpStatus.OK).build();
-        } catch (Exception ex) {
-            responseEntity = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-        return responseEntity;
+    public ResponseEntity<Void> addPointInSpace(RecognitionRequest request) {
+        recognitionService.addPointInSpace(request);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Override
+    public ResponseEntity<SortedSet<SpacePoint>> retrieveSpace() {
+        return ResponseEntity.status(HttpStatus.OK).body(recognitionService.retrieveSpace());
+    }
+
+    @Override
+    public ResponseEntity<SortedSet<SpaceLine>> retrieveLines(int numberOfPoints) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteSpace() {
+        recognitionService.deleteSpace();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
 
