@@ -1,9 +1,9 @@
 package com.pattern.recognition.controller.impl;
 
 import com.pattern.recognition.controller.RecognitionProvider;
-import com.pattern.recognition.model.SpacePointRequest;
 import com.pattern.recognition.model.SpaceLine;
 import com.pattern.recognition.model.SpacePoint;
+import com.pattern.recognition.model.SpacePointRequest;
 import com.pattern.recognition.service.RecognitionService;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -13,7 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.SortedSet;
+import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Setter
@@ -31,13 +32,14 @@ public class RecognitionController implements RecognitionProvider {
     }
 
     @Override
-    public ResponseEntity<SortedSet<SpacePoint>> retrieveSpace() {
+    public ResponseEntity<List<SpacePoint>> retrieveSpace() {
         return ResponseEntity.status(HttpStatus.OK).body(recognitionService.retrieveSpace());
     }
 
     @Override
-    public ResponseEntity<SortedSet<SpaceLine>> retrieveLines(int numberOfPoints) {
-        return null;
+    public ResponseEntity<Set<SpaceLine>> retrieveLines(Integer numberOfPoints) {
+        log.info("Value of numberOfPoint: [{}]", numberOfPoints);
+        return ResponseEntity.status(HttpStatus.OK).body(recognitionService.retrieveLines(numberOfPoints));
     }
 
     @Override

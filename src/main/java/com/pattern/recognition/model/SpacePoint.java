@@ -4,10 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.Comparator;
+
 @Data
 @Accessors(chain = true)
 @AllArgsConstructor
 public class SpacePoint implements Comparable<SpacePoint> {
+
+
+    public final Comparator<SpacePoint> slopeOrder = new ComparePointsBySlope();
 
     private int x;
     private int y;
@@ -15,6 +20,21 @@ public class SpacePoint implements Comparable<SpacePoint> {
     @Override
     public String toString() {
         return "[x=" + x + ",y=" + y + "]";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof SpacePoint)) {
+            return false;
+        }
+        SpacePoint that = (SpacePoint) obj;
+        return (this.x == that.x) && (this.y == that.y);
     }
 
     @Override
@@ -26,5 +46,40 @@ public class SpacePoint implements Comparable<SpacePoint> {
             return 1;
         }
         return x - that.x;
+    }
+
+    public Double slopeTo(SpacePoint that) {
+        Double slope;
+        if (this.equals(that)) {
+            slope = Double.NEGATIVE_INFINITY;
+        } else if (this.x == that.getX()) {
+            slope = Double.POSITIVE_INFINITY;
+        } else {
+            double numerator = that.getY() - this.getY();
+            double denominator = that.getX() - this.getX();
+            slope = numerator / denominator;
+        }
+        return slope;
+    }
+
+    public boolean slopeOrder(SpacePoint p1, SpacePoint p2) {
+        return this.slopeTo(p1) < this.slopeTo(p2);
+    }
+
+    private class ComparePointsBySlope implements Comparator<SpacePoint> {
+
+        /**
+         * Compares two specified points p1 and p2 for order. Returns a negative
+         * integer, zero, or a positive integer if p1 is less than, equal to, or
+         * greater than p2. All three properties of the compare method as
+         * specified in the Comparator interface are met.
+         */
+        @Override
+        public int compare(SpacePoint p1, SpacePoint p2) {
+            if (p1.equals(p2)) {
+                return 0;
+            }
+            return slopeOrder(p1, p2) ? -1 : 1;
+        }
     }
 }
