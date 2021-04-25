@@ -13,7 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Data
@@ -44,7 +47,7 @@ public class RecognitionServiceImpl implements RecognitionService {
     }
 
     @Override
-    public Set<SpaceLine> retrieveLines(Integer collinearPoints) {
+    public SortedSet<SpaceLine> retrieveLines(Integer collinearPoints) {
         SortedSet<SpaceLine> lines = new TreeSet<>();
         if (collinearPoints < 2) {
             throw new NotEnoughPointsException("At least 2 collinear points are required to generate a segment");
@@ -85,8 +88,7 @@ public class RecognitionServiceImpl implements RecognitionService {
             }
         }
 
-        log.info("info [{}]", lines);
-
+        log.debug("Lines retrieved: {}", lines);
         return lines;
     }
 
@@ -96,25 +98,3 @@ public class RecognitionServiceImpl implements RecognitionService {
         plane = new ArrayList<>();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
