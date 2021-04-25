@@ -5,17 +5,17 @@ import com.pattern.recognition.model.Point;
 import com.pattern.recognition.model.PointRequest;
 
 import java.util.List;
-import java.util.Set;
+import java.util.SortedSet;
 
 public interface RecognitionService {
 
-    void addPointInSpace(PointRequest request);
+    void addPointInPlane(PointRequest request);
 
-    List<Point> retrieveSpace();
+    List<Point> retrievePlane();
 
-    Set<Line> retrieveLines(Integer collinearPoints);
+    SortedSet<Line> retrieveLines(Integer collinearPoints);
 
-    void deleteSpace();
+    void deletePlane();
 
 
 }

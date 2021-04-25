@@ -2,7 +2,7 @@ package com.pattern.recognition.controller.impl;
 
 import com.pattern.recognition.exception.NotEnoughPointsException;
 import com.pattern.recognition.exception.NotEnoughPointsRegisteredException;
-import com.pattern.recognition.exception.SpacePointAlreadyRegisteredException;
+import com.pattern.recognition.exception.PointAlreadyRegisteredException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +21,9 @@ public class RecognitionControllerAdvice {
                 HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = {SpacePointAlreadyRegisteredException.class})
-    public ResponseEntity<String> handleSpacePointAlreadyRegistered(SpacePointAlreadyRegisteredException ex) {
-        log.warn("SpacePointAlreadyRegisteredException: {}", ex.getMessage());
+    @ExceptionHandler(value = {PointAlreadyRegisteredException.class})
+    public ResponseEntity<String> handlePointAlreadyRegistered(PointAlreadyRegisteredException ex) {
+        log.warn("PointAlreadyRegisteredException: {}", ex.getMessage());
         return new ResponseEntity<>(String.format("Warning: %s", ex.getMessage()),
                 HttpStatus.OK);
     }

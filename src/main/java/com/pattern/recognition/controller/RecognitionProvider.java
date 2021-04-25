@@ -8,22 +8,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
+import java.util.SortedSet;
 
 public interface RecognitionProvider {
 
     @PostMapping(value = "/point",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Void> addPointInSpace(@RequestBody PointRequest request);
+    ResponseEntity<Void> addPointInPlane(@RequestBody PointRequest request);
 
     @GetMapping(value = "/space",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<Point>> retrieveSpace();
+    ResponseEntity<List<Point>> retrievePlane();
 
     @GetMapping(value = "/lines/{collinearPoints}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Set<Line>> retrieveLines(@PathVariable("collinearPoints") Integer numberOfPoints);
+    ResponseEntity<SortedSet<Line>> retrieveLines(@PathVariable("collinearPoints") Integer collinearPoints);
 
     @DeleteMapping(value = "/space",
             produces = MediaType.APPLICATION_JSON_VALUE)

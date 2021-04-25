@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.Set;
+import java.util.SortedSet;
 
 @Slf4j
 @Setter
@@ -26,25 +26,25 @@ public class RecognitionController implements RecognitionProvider {
     private RecognitionService recognitionService;
 
     @Override
-    public ResponseEntity<Void> addPointInSpace(PointRequest request) {
-        recognitionService.addPointInSpace(request);
+    public ResponseEntity<Void> addPointInPlane(PointRequest request) {
+        recognitionService.addPointInPlane(request);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Override
-    public ResponseEntity<List<Point>> retrieveSpace() {
-        return ResponseEntity.status(HttpStatus.OK).body(recognitionService.retrieveSpace());
+    public ResponseEntity<List<Point>> retrievePlane() {
+        return ResponseEntity.status(HttpStatus.OK).body(recognitionService.retrievePlane());
     }
 
     @Override
-    public ResponseEntity<Set<Line>> retrieveLines(Integer collinearPoints) {
+    public ResponseEntity<SortedSet<Line>> retrieveLines(Integer collinearPoints) {
         log.info("Value of numberOfPoint: [{}]", collinearPoints);
         return ResponseEntity.status(HttpStatus.OK).body(recognitionService.retrieveLines(collinearPoints));
     }
 
     @Override
     public ResponseEntity<Void> deleteSpace() {
-        recognitionService.deleteSpace();
+        recognitionService.deletePlane();
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

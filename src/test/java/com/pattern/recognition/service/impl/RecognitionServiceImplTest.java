@@ -1,7 +1,7 @@
 package com.pattern.recognition.service.impl;
 
 import com.google.common.collect.ImmutableList;
-import com.pattern.recognition.exception.SpacePointAlreadyRegisteredException;
+import com.pattern.recognition.exception.PointAlreadyRegisteredException;
 import com.pattern.recognition.model.Line;
 import com.pattern.recognition.model.Point;
 import com.pattern.recognition.model.PointRequest;
@@ -29,24 +29,24 @@ class RecognitionServiceImplTest {
                 .setX(spacePointToAdd.getX())
                 .setY(spacePointToAdd.getY());
 
-        recognitionService.addPointInSpace(request);
-        assertThat(recognitionService.retrieveSpace()).hasSize(1);
-        assertThat(recognitionService.retrieveSpace().contains(spacePointToAdd));
+        recognitionService.addPointInPlane(request);
+        assertThat(recognitionService.retrievePlane()).hasSize(1);
+        assertThat(recognitionService.retrievePlane().contains(spacePointToAdd));
 
         try {
-            recognitionService.addPointInSpace(request);
-        } catch (SpacePointAlreadyRegisteredException ex) {
+            recognitionService.addPointInPlane(request);
+        } catch (PointAlreadyRegisteredException ex) {
 
         }
         // Verify that point [3,4], already present in the space, is not added to it
-        assertThat(recognitionService.retrieveSpace()).hasSize(1);
+        assertThat(recognitionService.retrievePlane()).hasSize(1);
 
         spacePointToAdd = new Point(10, 5);
-        recognitionService.addPointInSpace(new PointRequest()
+        recognitionService.addPointInPlane(new PointRequest()
                 .setX(spacePointToAdd.getX())
                 .setY(spacePointToAdd.getY()));
 
-        List<Point> space = recognitionService.retrieveSpace();
+        List<Point> space = recognitionService.retrievePlane();
         assertThat(space).hasSize(2);
         assertTrue(space.contains(spacePointToAdd));
     }
@@ -56,9 +56,9 @@ class RecognitionServiceImplTest {
         recognitionService = new RecognitionServiceImpl()
                 .setPlane(Collections.singletonList(new Point(3, 4)));
 
-        assertThat(recognitionService.retrieveSpace()).hasSize(1);
-        recognitionService.deleteSpace();
-        assertThat(recognitionService.retrieveSpace()).hasSize(0);
+        assertThat(recognitionService.retrievePlane()).hasSize(1);
+        recognitionService.deletePlane();
+        assertThat(recognitionService.retrievePlane()).hasSize(0);
     }
 
     @Test

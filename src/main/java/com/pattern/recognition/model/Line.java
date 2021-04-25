@@ -10,34 +10,34 @@ import java.util.TreeSet;
 @Accessors(chain = true)
 public class Line implements Comparable<Line> {
 
-    private SortedSet<Point> linePoints;
+    private SortedSet<Point> segment;
 
     public Line() {
-        this.linePoints = new TreeSet<>();
+        this.segment = new TreeSet<>();
     }
 
     public Point first() {
-        return this.linePoints.first();
+        return this.segment.first();
     }
 
     public Point last() {
-        return this.linePoints.last();
+        return this.segment.last();
     }
 
-    public Line addPoint(Point spacePoint) {
-        this.linePoints.add(spacePoint);
+    public Line addPoint(Point point) {
+        this.segment.add(point);
         return this;
     }
 
     @Override
     public int compareTo(Line other) {
-        if (this.linePoints.size() == 0 && other.getLinePoints().size() == 0) {
+        if (this.segment.size() == 0 && other.getSegment().size() == 0) {
             return 0;
         }
-        if (this.linePoints.size() == 0) {
+        if (this.segment.size() == 0) {
             return -1;
         }
-        if (other.getLinePoints().size() == 0) {
+        if (other.getSegment().size() == 0) {
             return 1;
         }
         // This line is less than other

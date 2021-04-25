@@ -2,7 +2,7 @@ package com.pattern.recognition.service.impl;
 
 import com.pattern.recognition.exception.NotEnoughPointsException;
 import com.pattern.recognition.exception.NotEnoughPointsRegisteredException;
-import com.pattern.recognition.exception.SpacePointAlreadyRegisteredException;
+import com.pattern.recognition.exception.PointAlreadyRegisteredException;
 import com.pattern.recognition.model.Line;
 import com.pattern.recognition.model.Point;
 import com.pattern.recognition.model.PointRequest;
@@ -28,12 +28,12 @@ public class RecognitionServiceImpl implements RecognitionService {
     private List<Point> plane;
 
     @Override
-    public void addPointInSpace(PointRequest request) {
+    public void addPointInPlane(PointRequest request) {
         Point spacePoint = new Point(request.getX(), request.getY());
         log.info("Adding {} point to the space", spacePoint);
 
         if (plane.stream().anyMatch(point -> point.equals(spacePoint))) {
-            throw new SpacePointAlreadyRegisteredException(String
+            throw new PointAlreadyRegisteredException(String
                     .format("The input point %s was already inside the space", spacePoint));
         }
 
@@ -41,8 +41,8 @@ public class RecognitionServiceImpl implements RecognitionService {
     }
 
     @Override
-    public List<Point> retrieveSpace() {
-        log.info("Retrieve space: {}", plane);
+    public List<Point> retrievePlane() {
+        log.info("Retrieve plane: {}", plane);
         return plane;
     }
 
@@ -62,28 +62,28 @@ public class RecognitionServiceImpl implements RecognitionService {
 
             // For each point in the plane, order the remaining points by the slope they have respect
             // to the point we are considering.
-            List<Point> collect = plane.stream()
+            List<Point> slopeOrderedPlane = plane.stream()
                     .sorted((o1, o2) -> originPoint.getSlopeOrder().compare(o1, o2))
                     .collect(Collectors.toList());
 
             Line referenceLine = new Line();
-            for (Point p : collect) {
+            for (Point orderedPoint : slopeOrderedPlane) {
 
                 // Now we have all the points ordered by slope, as soon as a point with a different slope is found,
                 // we can save the segment obtained so far and start a new segment
-                if (!CollectionUtils.isEmpty(referenceLine.getLinePoints())
-                        && !referenceLine.first().slopeTo(p).equals(referenceLine.last().slopeTo(p))) {
+                if (!CollectionUtils.isEmpty(referenceLine.getSegment())
+                        && !referenceLine.first().slopeTo(orderedPoint).equals(referenceLine.last().slopeTo(orderedPoint))) {
 
-                    // We only save the segment if it has at least {numberOfPoints} points
-                    if (referenceLine.getLinePoints().size() >= collinearPoints) {
+                    // We only save the segment if it has at least {collinearPoints} collinear points
+                    if (referenceLine.getSegment().size() >= collinearPoints) {
                         lines.add(referenceLine);
                     }
                     referenceLine = new Line().addPoint(originPoint);
                 }
-                referenceLine.addPoint(p);
+                referenceLine.addPoint(orderedPoint);
             }
 
-            if (referenceLine.getLinePoints().size() >= collinearPoints) {
+            if (referenceLine.getSegment().size() >= collinearPoints) {
                 lines.add(referenceLine);
             }
         }
@@ -93,7 +93,7 @@ public class RecognitionServiceImpl implements RecognitionService {
     }
 
     @Override
-    public void deleteSpace() {
+    public void deletePlane() {
         log.info("Delete all points from space");
         plane = new ArrayList<>();
     }
