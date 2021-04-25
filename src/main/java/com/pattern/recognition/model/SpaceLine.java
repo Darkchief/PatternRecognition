@@ -24,6 +24,11 @@ public class SpaceLine implements Comparable<SpaceLine> {
         return this.linePoints.last();
     }
 
+    public SpaceLine addPoint(SpacePoint spacePoint) {
+        this.linePoints.add(spacePoint);
+        return this;
+    }
+
     @Override
     public int compareTo(SpaceLine other) {
         if (this.linePoints.size() == 0 && other.getLinePoints().size() == 0) {
@@ -42,11 +47,6 @@ public class SpaceLine implements Comparable<SpaceLine> {
         }
         // This line is equals to other
         if (this.first().equals(other.first()) && this.last().equals(other.last())) {
-            return 0;
-        }
-
-        //If the lines share two or more points, they are the same
-        if (other.getLinePoints().containsAll(this.linePoints)) {
             return 0;
         }
 

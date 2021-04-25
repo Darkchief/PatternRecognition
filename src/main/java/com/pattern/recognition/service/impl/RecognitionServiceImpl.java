@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,7 +21,6 @@ import java.util.stream.Collectors;
 public class RecognitionServiceImpl implements RecognitionService {
 
     private List<SpacePoint> space;
-    private List<SpaceLine> lines;
 
     @Override
     public void addPointInSpace(SpacePointRequest request) {
@@ -43,50 +43,49 @@ public class RecognitionServiceImpl implements RecognitionService {
 
     @Override
     public Set<SpaceLine> retrieveLines(Integer numberOfPoints) {
-//        SortedSet<SpaceLine> allTwoPointsSegments = createAllTwoPointsSegments();
-//        log.info("retrieved lines: [{}]", allTwoPointsSegments);
-
-//        return allTwoPointsSegments
-//                .stream()
-//                .filter(spaceLine -> spaceLine.getLinePoints().size() >= numberOfPoints)
-//                .collect(Collectors.toSet());
-
         //        Sort punti in base allo slope rispetto ad uno di reference
         //        Scan dei punti per trovare tutti quelli maggiori di numberOfPoints collineari
         //        Ripetere per gli N -1 points
+        SortedSet<SpaceLine> lines = new TreeSet<>();
+        if (space.size() < 2) {
+//            TODO: set error in controller advice
+            throw new RuntimeException();
+        }
 
+        // Foreach point in space,
+        for (SpacePoint originPoint : space) {
 
-        log.info("info [{}]", space);
-        List<SpacePoint> collect = new ArrayList<>();
-//        for (SpacePoint point : space) {
-//            collect = space.stream().sorted((o1, o2) -> point.getSlopeOrder().compare(o1, o2)).collect(Collectors.toList());
-//
-//        }
+            // For each point in the plane, order the remaining points by the slope they have respect
+            // to the point we are considering.
+            List<SpacePoint> collect = space.stream()
+                    .sorted((o1, o2) -> originPoint.getSlopeOrder().compare(o1, o2))
+                    .collect(Collectors.toList());
 
-        SpacePoint point = space.stream().findFirst().get();
-        collect = space.stream()
-                .sorted((o1, o2) -> point.getSlopeOrder().compare(o1, o2))
-                .collect(Collectors.toList());
+            SpaceLine referenceLine = new SpaceLine();
+            for (SpacePoint p : collect) {
 
-        SortedSet<SpaceLine> lines1 = new TreeSet<>();
-        SpaceLine referredLine = new SpaceLine();
-        for (SpacePoint p : collect) {
-            if (referredLine.getLinePoints().isEmpty()) {
-                lines1.add(referredLine);
-                referredLine.getLinePoints().add(point);
-            } else {
-                if (!referredLine.first().slopeTo(p).equals(referredLine.last().slopeTo(p))) {
-                    referredLine = new SpaceLine();
-                    referredLine.getLinePoints().add(point);
+                // Now we have all the points ordered by slope, as soon as a point with a different slope is found,
+                // we can save the segment obtained so far and start a new segment
+                if (!CollectionUtils.isEmpty(referenceLine.getLinePoints())
+                        && !referenceLine.first().slopeTo(p).equals(referenceLine.last().slopeTo(p))) {
+
+                    // We only save the segment if it has at least {numberOfPoints} points
+                    if (referenceLine.getLinePoints().size() >= numberOfPoints) {
+                        lines.add(referenceLine);
+                    }
+                    referenceLine = new SpaceLine().addPoint(originPoint);
                 }
-                referredLine.getLinePoints().add(p);
+                referenceLine.addPoint(p);
+            }
+
+            if (referenceLine.getLinePoints().size() >= numberOfPoints) {
+                lines.add(referenceLine);
             }
         }
 
+        log.info("info [{}]", lines);
 
-        log.info("info [{}]", lines1);
-
-        return lines1;
+        return lines;
     }
 
     @Override

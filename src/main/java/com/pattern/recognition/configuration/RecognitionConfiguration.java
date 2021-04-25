@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
-import java.util.TreeSet;
 
 @Configuration
 public class RecognitionConfiguration {
@@ -22,7 +21,6 @@ public class RecognitionConfiguration {
     @Bean
     public RecognitionService recognitionService() {
         return new RecognitionServiceImpl()
-                .setSpace(new ArrayList<>())
-                .setLines(new ArrayList<>());
+                .setSpace(new ArrayList<>());
     }
 }
