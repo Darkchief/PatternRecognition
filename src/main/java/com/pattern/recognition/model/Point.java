@@ -7,6 +7,9 @@ import lombok.experimental.Accessors;
 
 import java.util.Comparator;
 
+/**
+ * This class represents a point in the plane
+ */
 @Data
 @Accessors(chain = true)
 @AllArgsConstructor

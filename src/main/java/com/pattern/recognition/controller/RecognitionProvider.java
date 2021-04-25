@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.SortedSet;
 
+/**
+ * Interface for the controller, here you will find the exposed api
+ */
 public interface RecognitionProvider {
 
     @PostMapping(value = "/point",
@@ -18,10 +21,12 @@ public interface RecognitionProvider {
 
     @GetMapping(value = "/space",
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     ResponseEntity<SortedSet<Point>> retrievePlane();
 
     @GetMapping(value = "/lines/{collinearPoints}",
             produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
     ResponseEntity<SortedSet<Line>> retrieveLines(@PathVariable("collinearPoints") Integer collinearPoints);
 
     @DeleteMapping(value = "/space",

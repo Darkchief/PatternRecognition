@@ -6,6 +6,9 @@ import com.pattern.recognition.model.PointRequest;
 
 import java.util.SortedSet;
 
+/**
+ * Interface for the service, here you will find the core methods
+ */
 public interface RecognitionService {
 
     void addPointInPlane(PointRequest request);

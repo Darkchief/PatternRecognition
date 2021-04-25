@@ -18,6 +18,9 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+/**
+ * Here you will find the algorithms implementation
+ */
 @Data
 @Slf4j
 @Service
@@ -26,6 +29,11 @@ public class RecognitionServiceImpl implements RecognitionService {
 
     private SortedSet<Point> plane;
 
+    /**
+     * This method add a point in the plane, if the point is already registered then it will throws an exception
+     *
+     * @param request the request that contains the x and the y of the point
+     */
     @Override
     public void addPointInPlane(PointRequest request) {
         Point point = new Point(request.getX(), request.getY());
@@ -37,12 +45,23 @@ public class RecognitionServiceImpl implements RecognitionService {
         }
     }
 
+    /**
+     * This method return all the points inside the plane
+     *
+     * @return the plane
+     */
     @Override
     public SortedSet<Point> retrievePlane() {
         log.info("Retrieve plane: {}", plane);
         return plane;
     }
 
+    /**
+     * This methos, given a N collinearPoints, determine every line that contains N or more of the points,
+     *
+     * @param collinearPoints minimum number of collinear points
+     * @return a set of lines with at least {collinearPoint} collinear points
+     */
     @Override
     public SortedSet<Line> retrieveLines(Integer collinearPoints) {
         if (collinearPoints < 2) {
@@ -87,6 +106,9 @@ public class RecognitionServiceImpl implements RecognitionService {
         return lines;
     }
 
+    /**
+     * This method deletes all points of the plane
+     */
     @Override
     public void deletePlane() {
         log.info("Delete all points from plane");

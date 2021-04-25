@@ -6,6 +6,9 @@ import lombok.experimental.Accessors;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+/**
+ * This class represents a line segment in the plane
+ */
 @Data
 @Accessors(chain = true)
 public class Line implements Comparable<Line> {
