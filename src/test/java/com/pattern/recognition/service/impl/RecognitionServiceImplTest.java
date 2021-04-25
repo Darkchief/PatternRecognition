@@ -1,6 +1,5 @@
 package com.pattern.recognition.service.impl;
 
-import com.google.common.collect.ImmutableList;
 import com.pattern.recognition.exception.PointAlreadyRegisteredException;
 import com.pattern.recognition.model.Line;
 import com.pattern.recognition.model.Point;
@@ -8,10 +7,9 @@ import com.pattern.recognition.model.PointRequest;
 import com.pattern.recognition.service.RecognitionService;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,8 +19,8 @@ class RecognitionServiceImplTest {
     private RecognitionService recognitionService;
 
     @Test
-    public void testAddPoint() {
-        recognitionService = new RecognitionServiceImpl().setPlane(new ArrayList<>());
+    public void addPointTest() {
+        recognitionService = new RecognitionServiceImpl().setPlane(new TreeSet<>());
 
         Point spacePointToAdd = new Point(3, 4);
         PointRequest request = new PointRequest()
@@ -46,23 +44,21 @@ class RecognitionServiceImplTest {
                 .setX(spacePointToAdd.getX())
                 .setY(spacePointToAdd.getY()));
 
-        List<Point> space = recognitionService.retrievePlane();
+        SortedSet<Point> space = recognitionService.retrievePlane();
         assertThat(space).hasSize(2);
         assertTrue(space.contains(spacePointToAdd));
     }
 
     @Test
-    void testDeleteSpace() {
-        recognitionService = new RecognitionServiceImpl()
-                .setPlane(Collections.singletonList(new Point(3, 4)));
+    void deleteSpaceTest() {
+        recognitionService = new RecognitionServiceImpl().setPlane(createCartesianPlane());
 
-        assertThat(recognitionService.retrievePlane()).hasSize(1);
         recognitionService.deletePlane();
         assertThat(recognitionService.retrievePlane()).hasSize(0);
     }
 
     @Test
-    void retrieveLines() {
+    void retrieveLinesTest() {
         recognitionService = new RecognitionServiceImpl().setPlane(createCartesianPlane());
 
         Set<Line> spaceLines = recognitionService.retrieveLines(3);
@@ -71,21 +67,21 @@ class RecognitionServiceImplTest {
 
     }
 
-    private List<Point> createCartesianPlane() {
-        return ImmutableList.of(
-                new Point(3, 4),
-                new Point(1, 6),
-                new Point(2, 2),
-                new Point(2, 5),
-                new Point(3, 1),
-                new Point(3, 3),
-                new Point(3, 2),
-                new Point(3, 5),
-                new Point(5, 2),
-                new Point(5, 5),
-                new Point(4, 4),
-                new Point(4, 3)
-        );
+    private SortedSet<Point> createCartesianPlane() {
+        SortedSet<Point> plane = new TreeSet<>();
+        plane.add(new Point(3, 4));
+        plane.add(new Point(1, 6));
+        plane.add(new Point(2, 2));
+        plane.add(new Point(2, 5));
+        plane.add(new Point(3, 1));
+        plane.add(new Point(3, 3));
+        plane.add(new Point(3, 2));
+        plane.add(new Point(3, 5));
+        plane.add(new Point(5, 2));
+        plane.add(new Point(5, 5));
+        plane.add(new Point(4, 4));
+        plane.add(new Point(4, 3));
+        return plane;
     }
 
     private Line expectedLine() {

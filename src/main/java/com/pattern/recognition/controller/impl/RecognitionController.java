@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
 import java.util.SortedSet;
 
 @Slf4j
@@ -32,13 +31,12 @@ public class RecognitionController implements RecognitionProvider {
     }
 
     @Override
-    public ResponseEntity<List<Point>> retrievePlane() {
+    public ResponseEntity<SortedSet<Point>> retrievePlane() {
         return ResponseEntity.status(HttpStatus.OK).body(recognitionService.retrievePlane());
     }
 
     @Override
     public ResponseEntity<SortedSet<Line>> retrieveLines(Integer collinearPoints) {
-        log.info("Value of numberOfPoint: [{}]", collinearPoints);
         return ResponseEntity.status(HttpStatus.OK).body(recognitionService.retrieveLines(collinearPoints));
     }
 

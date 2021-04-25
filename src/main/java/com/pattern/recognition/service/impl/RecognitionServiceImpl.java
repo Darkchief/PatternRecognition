@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -25,23 +24,21 @@ import java.util.stream.Collectors;
 @Accessors(chain = true)
 public class RecognitionServiceImpl implements RecognitionService {
 
-    private List<Point> plane;
+    private SortedSet<Point> plane;
 
     @Override
     public void addPointInPlane(PointRequest request) {
-        Point spacePoint = new Point(request.getX(), request.getY());
-        log.info("Adding {} point to the space", spacePoint);
+        Point point = new Point(request.getX(), request.getY());
+        log.info("Adding {} point to the space", point);
 
-        if (plane.stream().anyMatch(point -> point.equals(spacePoint))) {
+        if (!plane.add(point)) {
             throw new PointAlreadyRegisteredException(String
-                    .format("The input point %s was already inside the space", spacePoint));
+                    .format("The input point %s was already inside the space", point));
         }
-
-        plane.add(spacePoint);
     }
 
     @Override
-    public List<Point> retrievePlane() {
+    public SortedSet<Point> retrievePlane() {
         log.info("Retrieve plane: {}", plane);
         return plane;
     }
@@ -94,7 +91,7 @@ public class RecognitionServiceImpl implements RecognitionService {
 
     @Override
     public void deletePlane() {
-        log.info("Delete all points from space");
-        plane = new ArrayList<>();
+        log.info("Delete all points from plane");
+        plane = new TreeSet<>();
     }
 }

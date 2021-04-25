@@ -7,7 +7,7 @@ import com.pattern.recognition.service.impl.RecognitionServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
+import java.util.TreeSet;
 
 @Configuration
 public class RecognitionConfiguration {
@@ -21,6 +21,6 @@ public class RecognitionConfiguration {
     @Bean
     public RecognitionService recognitionService() {
         return new RecognitionServiceImpl()
-                .setPlane(new ArrayList<>());
+                .setPlane(new TreeSet<>());
     }
 }

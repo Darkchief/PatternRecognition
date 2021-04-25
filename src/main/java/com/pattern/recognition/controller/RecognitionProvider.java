@@ -7,7 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.SortedSet;
 
 public interface RecognitionProvider {
@@ -19,7 +18,7 @@ public interface RecognitionProvider {
 
     @GetMapping(value = "/space",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<Point>> retrievePlane();
+    ResponseEntity<SortedSet<Point>> retrievePlane();
 
     @GetMapping(value = "/lines/{collinearPoints}",
             produces = MediaType.APPLICATION_JSON_VALUE)
