@@ -1,5 +1,6 @@
 package com.pattern.recognition.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -11,7 +12,7 @@ import java.util.Comparator;
 @AllArgsConstructor
 public class Point implements Comparable<Point> {
 
-
+    @JsonIgnore
     public final Comparator<Point> slopeOrder = new ComparePointsBySlope();
 
     private int x;

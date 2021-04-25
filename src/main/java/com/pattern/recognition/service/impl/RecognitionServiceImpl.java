@@ -29,11 +29,11 @@ public class RecognitionServiceImpl implements RecognitionService {
     @Override
     public void addPointInPlane(PointRequest request) {
         Point point = new Point(request.getX(), request.getY());
-        log.info("Adding {} point to the space", point);
+        log.info("Adding {} point to the plane", point);
 
         if (!plane.add(point)) {
             throw new PointAlreadyRegisteredException(String
-                    .format("The input point %s was already inside the space", point));
+                    .format("The input point %s was already inside the plane", point));
         }
     }
 
@@ -45,18 +45,16 @@ public class RecognitionServiceImpl implements RecognitionService {
 
     @Override
     public SortedSet<Line> retrieveLines(Integer collinearPoints) {
-        SortedSet<Line> lines = new TreeSet<>();
         if (collinearPoints < 2) {
             throw new NotEnoughPointsException("At least 2 collinear points are required to generate a segment");
         }
-
         if (plane.size() < 2) {
             throw new NotEnoughPointsRegisteredException("In order to generate a segment, the plane must contain " +
                     "at least 2 points");
         }
 
+        SortedSet<Line> lines = new TreeSet<>();
         for (Point originPoint : plane) {
-
             // For each point in the plane, order the remaining points by the slope they have respect
             // to the point we are considering.
             List<Point> slopeOrderedPlane = plane.stream()
