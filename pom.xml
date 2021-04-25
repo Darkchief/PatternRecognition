@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.pattern</groupId>
 	<artifactId>recognition</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<name>PatternRecognition</name>
 	<description>Patter Recognition for Welld</description>
 	<properties>
