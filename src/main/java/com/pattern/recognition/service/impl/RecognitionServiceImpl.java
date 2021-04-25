@@ -3,9 +3,9 @@ package com.pattern.recognition.service.impl;
 import com.pattern.recognition.exception.NotEnoughPointsException;
 import com.pattern.recognition.exception.NotEnoughPointsRegisteredException;
 import com.pattern.recognition.exception.SpacePointAlreadyRegisteredException;
-import com.pattern.recognition.model.SpaceLine;
-import com.pattern.recognition.model.SpacePoint;
-import com.pattern.recognition.model.SpacePointRequest;
+import com.pattern.recognition.model.Line;
+import com.pattern.recognition.model.Point;
+import com.pattern.recognition.model.PointRequest;
 import com.pattern.recognition.service.RecognitionService;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -25,11 +25,11 @@ import java.util.stream.Collectors;
 @Accessors(chain = true)
 public class RecognitionServiceImpl implements RecognitionService {
 
-    private List<SpacePoint> plane;
+    private List<Point> plane;
 
     @Override
-    public void addPointInSpace(SpacePointRequest request) {
-        SpacePoint spacePoint = new SpacePoint(request.getX(), request.getY());
+    public void addPointInSpace(PointRequest request) {
+        Point spacePoint = new Point(request.getX(), request.getY());
         log.info("Adding {} point to the space", spacePoint);
 
         if (plane.stream().anyMatch(point -> point.equals(spacePoint))) {
@@ -41,14 +41,14 @@ public class RecognitionServiceImpl implements RecognitionService {
     }
 
     @Override
-    public List<SpacePoint> retrieveSpace() {
+    public List<Point> retrieveSpace() {
         log.info("Retrieve space: {}", plane);
         return plane;
     }
 
     @Override
-    public SortedSet<SpaceLine> retrieveLines(Integer collinearPoints) {
-        SortedSet<SpaceLine> lines = new TreeSet<>();
+    public SortedSet<Line> retrieveLines(Integer collinearPoints) {
+        SortedSet<Line> lines = new TreeSet<>();
         if (collinearPoints < 2) {
             throw new NotEnoughPointsException("At least 2 collinear points are required to generate a segment");
         }
@@ -58,16 +58,16 @@ public class RecognitionServiceImpl implements RecognitionService {
                     "at least 2 points");
         }
 
-        for (SpacePoint originPoint : plane) {
+        for (Point originPoint : plane) {
 
             // For each point in the plane, order the remaining points by the slope they have respect
             // to the point we are considering.
-            List<SpacePoint> collect = plane.stream()
+            List<Point> collect = plane.stream()
                     .sorted((o1, o2) -> originPoint.getSlopeOrder().compare(o1, o2))
                     .collect(Collectors.toList());
 
-            SpaceLine referenceLine = new SpaceLine();
-            for (SpacePoint p : collect) {
+            Line referenceLine = new Line();
+            for (Point p : collect) {
 
                 // Now we have all the points ordered by slope, as soon as a point with a different slope is found,
                 // we can save the segment obtained so far and start a new segment
@@ -78,7 +78,7 @@ public class RecognitionServiceImpl implements RecognitionService {
                     if (referenceLine.getLinePoints().size() >= collinearPoints) {
                         lines.add(referenceLine);
                     }
-                    referenceLine = new SpaceLine().addPoint(originPoint);
+                    referenceLine = new Line().addPoint(originPoint);
                 }
                 referenceLine.addPoint(p);
             }

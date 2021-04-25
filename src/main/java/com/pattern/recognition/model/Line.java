@@ -8,29 +8,29 @@ import java.util.TreeSet;
 
 @Data
 @Accessors(chain = true)
-public class SpaceLine implements Comparable<SpaceLine> {
+public class Line implements Comparable<Line> {
 
-    private SortedSet<SpacePoint> linePoints;
+    private SortedSet<Point> linePoints;
 
-    public SpaceLine() {
+    public Line() {
         this.linePoints = new TreeSet<>();
     }
 
-    public SpacePoint first() {
+    public Point first() {
         return this.linePoints.first();
     }
 
-    public SpacePoint last() {
+    public Point last() {
         return this.linePoints.last();
     }
 
-    public SpaceLine addPoint(SpacePoint spacePoint) {
+    public Line addPoint(Point spacePoint) {
         this.linePoints.add(spacePoint);
         return this;
     }
 
     @Override
-    public int compareTo(SpaceLine other) {
+    public int compareTo(Line other) {
         if (this.linePoints.size() == 0 && other.getLinePoints().size() == 0) {
             return 0;
         }

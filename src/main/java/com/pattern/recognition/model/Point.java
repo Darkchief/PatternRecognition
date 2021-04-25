@@ -9,10 +9,10 @@ import java.util.Comparator;
 @Data
 @Accessors(chain = true)
 @AllArgsConstructor
-public class SpacePoint implements Comparable<SpacePoint> {
+public class Point implements Comparable<Point> {
 
 
-    public final Comparator<SpacePoint> slopeOrder = new ComparePointsBySlope();
+    public final Comparator<Point> slopeOrder = new ComparePointsBySlope();
 
     private int x;
     private int y;
@@ -30,15 +30,15 @@ public class SpacePoint implements Comparable<SpacePoint> {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof SpacePoint)) {
+        if (!(obj instanceof Point)) {
             return false;
         }
-        SpacePoint that = (SpacePoint) obj;
+        Point that = (Point) obj;
         return (this.x == that.x) && (this.y == that.y);
     }
 
     @Override
-    public int compareTo(SpacePoint that) {
+    public int compareTo(Point that) {
         if (y < that.y) {
             return -1;
         }
@@ -48,7 +48,7 @@ public class SpacePoint implements Comparable<SpacePoint> {
         return x - that.x;
     }
 
-    public Double slopeTo(SpacePoint that) {
+    public Double slopeTo(Point that) {
         Double slope;
         if (this.equals(that)) {
             slope = Double.NEGATIVE_INFINITY;
@@ -62,11 +62,11 @@ public class SpacePoint implements Comparable<SpacePoint> {
         return slope;
     }
 
-    public boolean slopeOrder(SpacePoint p1, SpacePoint p2) {
+    public boolean slopeOrder(Point p1, Point p2) {
         return this.slopeTo(p1) < this.slopeTo(p2);
     }
 
-    private class ComparePointsBySlope implements Comparator<SpacePoint> {
+    private class ComparePointsBySlope implements Comparator<Point> {
 
         /**
          * Compares two specified points p1 and p2 for order. Returns a negative
@@ -75,7 +75,7 @@ public class SpacePoint implements Comparable<SpacePoint> {
          * specified in the Comparator interface are met.
          */
         @Override
-        public int compare(SpacePoint p1, SpacePoint p2) {
+        public int compare(Point p1, Point p2) {
             if (p1.equals(p2)) {
                 return 0;
             }

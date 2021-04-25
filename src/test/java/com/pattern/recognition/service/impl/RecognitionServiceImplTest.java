@@ -2,9 +2,9 @@ package com.pattern.recognition.service.impl;
 
 import com.google.common.collect.ImmutableList;
 import com.pattern.recognition.exception.SpacePointAlreadyRegisteredException;
-import com.pattern.recognition.model.SpaceLine;
-import com.pattern.recognition.model.SpacePoint;
-import com.pattern.recognition.model.SpacePointRequest;
+import com.pattern.recognition.model.Line;
+import com.pattern.recognition.model.Point;
+import com.pattern.recognition.model.PointRequest;
 import com.pattern.recognition.service.RecognitionService;
 import org.junit.jupiter.api.Test;
 
@@ -24,8 +24,8 @@ class RecognitionServiceImplTest {
     public void testAddPoint() {
         recognitionService = new RecognitionServiceImpl().setPlane(new ArrayList<>());
 
-        SpacePoint spacePointToAdd = new SpacePoint(3, 4);
-        SpacePointRequest request = new SpacePointRequest()
+        Point spacePointToAdd = new Point(3, 4);
+        PointRequest request = new PointRequest()
                 .setX(spacePointToAdd.getX())
                 .setY(spacePointToAdd.getY());
 
@@ -41,12 +41,12 @@ class RecognitionServiceImplTest {
         // Verify that point [3,4], already present in the space, is not added to it
         assertThat(recognitionService.retrieveSpace()).hasSize(1);
 
-        spacePointToAdd = new SpacePoint(10, 5);
-        recognitionService.addPointInSpace(new SpacePointRequest()
+        spacePointToAdd = new Point(10, 5);
+        recognitionService.addPointInSpace(new PointRequest()
                 .setX(spacePointToAdd.getX())
                 .setY(spacePointToAdd.getY()));
 
-        List<SpacePoint> space = recognitionService.retrieveSpace();
+        List<Point> space = recognitionService.retrieveSpace();
         assertThat(space).hasSize(2);
         assertTrue(space.contains(spacePointToAdd));
     }
@@ -54,7 +54,7 @@ class RecognitionServiceImplTest {
     @Test
     void testDeleteSpace() {
         recognitionService = new RecognitionServiceImpl()
-                .setPlane(Collections.singletonList(new SpacePoint(3, 4)));
+                .setPlane(Collections.singletonList(new Point(3, 4)));
 
         assertThat(recognitionService.retrieveSpace()).hasSize(1);
         recognitionService.deleteSpace();
@@ -65,25 +65,25 @@ class RecognitionServiceImplTest {
     void retrieveLines() {
         recognitionService = new RecognitionServiceImpl().setPlane(createCartesianPlane());
 
-        Set<SpaceLine> spaceLines = recognitionService.retrieveLines(3);
+        Set<Line> spaceLines = recognitionService.retrieveLines(3);
         System.out.println(spaceLines);
 
     }
 
-    private List<SpacePoint> createCartesianPlane() {
+    private List<Point> createCartesianPlane() {
         return ImmutableList.of(
-                new SpacePoint(3, 4),
-                new SpacePoint(1, 6),
-                new SpacePoint(2, 2),
-                new SpacePoint(2, 5),
-                new SpacePoint(3, 1),
-                new SpacePoint(3, 3),
-                new SpacePoint(3, 2),
-                new SpacePoint(3, 5),
-                new SpacePoint(5, 2),
-                new SpacePoint(5, 5),
-                new SpacePoint(4, 4),
-                new SpacePoint(4, 3)
+                new Point(3, 4),
+                new Point(1, 6),
+                new Point(2, 2),
+                new Point(2, 5),
+                new Point(3, 1),
+                new Point(3, 3),
+                new Point(3, 2),
+                new Point(3, 5),
+                new Point(5, 2),
+                new Point(5, 5),
+                new Point(4, 4),
+                new Point(4, 3)
         );
     }
 }

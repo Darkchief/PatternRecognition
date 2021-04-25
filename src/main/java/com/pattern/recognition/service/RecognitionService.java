@@ -1,19 +1,19 @@
 package com.pattern.recognition.service;
 
-import com.pattern.recognition.model.SpaceLine;
-import com.pattern.recognition.model.SpacePoint;
-import com.pattern.recognition.model.SpacePointRequest;
+import com.pattern.recognition.model.Line;
+import com.pattern.recognition.model.Point;
+import com.pattern.recognition.model.PointRequest;
 
 import java.util.List;
 import java.util.Set;
 
 public interface RecognitionService {
 
-    void addPointInSpace(SpacePointRequest request);
+    void addPointInSpace(PointRequest request);
 
-    List<SpacePoint> retrieveSpace();
+    List<Point> retrieveSpace();
 
-    Set<SpaceLine> retrieveLines(Integer collinearPoints);
+    Set<Line> retrieveLines(Integer collinearPoints);
 
     void deleteSpace();
 

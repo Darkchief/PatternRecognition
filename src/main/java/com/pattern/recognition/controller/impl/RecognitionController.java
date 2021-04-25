@@ -1,9 +1,9 @@
 package com.pattern.recognition.controller.impl;
 
 import com.pattern.recognition.controller.RecognitionProvider;
-import com.pattern.recognition.model.SpaceLine;
-import com.pattern.recognition.model.SpacePoint;
-import com.pattern.recognition.model.SpacePointRequest;
+import com.pattern.recognition.model.Line;
+import com.pattern.recognition.model.Point;
+import com.pattern.recognition.model.PointRequest;
 import com.pattern.recognition.service.RecognitionService;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -26,18 +26,18 @@ public class RecognitionController implements RecognitionProvider {
     private RecognitionService recognitionService;
 
     @Override
-    public ResponseEntity<Void> addPointInSpace(SpacePointRequest request) {
+    public ResponseEntity<Void> addPointInSpace(PointRequest request) {
         recognitionService.addPointInSpace(request);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Override
-    public ResponseEntity<List<SpacePoint>> retrieveSpace() {
+    public ResponseEntity<List<Point>> retrieveSpace() {
         return ResponseEntity.status(HttpStatus.OK).body(recognitionService.retrieveSpace());
     }
 
     @Override
-    public ResponseEntity<Set<SpaceLine>> retrieveLines(Integer collinearPoints) {
+    public ResponseEntity<Set<Line>> retrieveLines(Integer collinearPoints) {
         log.info("Value of numberOfPoint: [{}]", collinearPoints);
         return ResponseEntity.status(HttpStatus.OK).body(recognitionService.retrieveLines(collinearPoints));
     }
