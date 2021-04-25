@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
 
 public interface RecognitionProvider {
 
@@ -22,9 +21,9 @@ public interface RecognitionProvider {
             produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<SpacePoint>> retrieveSpace();
 
-    @GetMapping(value = "/lines/{numberOfPoints}",
+    @GetMapping(value = "/lines/{collinearPoints}",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Set<SpaceLine>> retrieveLines(@PathVariable("numberOfPoints") Integer numberOfPoints);
+    ResponseEntity<Set<SpaceLine>> retrieveLines(@PathVariable("collinearPoints") Integer numberOfPoints);
 
     @DeleteMapping(value = "/space",
             produces = MediaType.APPLICATION_JSON_VALUE)

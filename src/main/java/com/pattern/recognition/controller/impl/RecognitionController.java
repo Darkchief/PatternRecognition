@@ -37,9 +37,9 @@ public class RecognitionController implements RecognitionProvider {
     }
 
     @Override
-    public ResponseEntity<Set<SpaceLine>> retrieveLines(Integer numberOfPoints) {
-        log.info("Value of numberOfPoint: [{}]", numberOfPoints);
-        return ResponseEntity.status(HttpStatus.OK).body(recognitionService.retrieveLines(numberOfPoints));
+    public ResponseEntity<Set<SpaceLine>> retrieveLines(Integer collinearPoints) {
+        log.info("Value of numberOfPoint: [{}]", collinearPoints);
+        return ResponseEntity.status(HttpStatus.OK).body(recognitionService.retrieveLines(collinearPoints));
     }
 
     @Override

@@ -13,7 +13,7 @@ public interface RecognitionService {
 
     List<SpacePoint> retrieveSpace();
 
-    Set<SpaceLine> retrieveLines(Integer numberOfPoints);
+    Set<SpaceLine> retrieveLines(Integer collinearPoints);
 
     void deleteSpace();
 

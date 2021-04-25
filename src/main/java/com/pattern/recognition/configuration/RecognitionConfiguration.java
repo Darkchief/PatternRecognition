@@ -21,6 +21,6 @@ public class RecognitionConfiguration {
     @Bean
     public RecognitionService recognitionService() {
         return new RecognitionServiceImpl()
-                .setSpace(new ArrayList<>());
+                .setPlane(new ArrayList<>());
     }
 }

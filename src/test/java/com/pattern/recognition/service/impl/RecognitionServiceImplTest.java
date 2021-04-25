@@ -22,7 +22,7 @@ class RecognitionServiceImplTest {
 
     @Test
     public void testAddPoint() {
-        recognitionService = new RecognitionServiceImpl().setSpace(new ArrayList<>());
+        recognitionService = new RecognitionServiceImpl().setPlane(new ArrayList<>());
 
         SpacePoint spacePointToAdd = new SpacePoint(3, 4);
         SpacePointRequest request = new SpacePointRequest()
@@ -54,7 +54,7 @@ class RecognitionServiceImplTest {
     @Test
     void testDeleteSpace() {
         recognitionService = new RecognitionServiceImpl()
-                .setSpace(Collections.singletonList(new SpacePoint(3, 4)));
+                .setPlane(Collections.singletonList(new SpacePoint(3, 4)));
 
         assertThat(recognitionService.retrieveSpace()).hasSize(1);
         recognitionService.deleteSpace();
@@ -63,7 +63,7 @@ class RecognitionServiceImplTest {
 
     @Test
     void retrieveLines() {
-        recognitionService = new RecognitionServiceImpl().setSpace(createCartesianPlane());
+        recognitionService = new RecognitionServiceImpl().setPlane(createCartesianPlane());
 
         Set<SpaceLine> spaceLines = recognitionService.retrieveLines(3);
         System.out.println(spaceLines);

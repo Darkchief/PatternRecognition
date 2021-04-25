@@ -1,5 +1,7 @@
 package com.pattern.recognition.controller.impl;
 
+import com.pattern.recognition.exception.NotEnoughPointsException;
+import com.pattern.recognition.exception.NotEnoughPointsRegisteredException;
 import com.pattern.recognition.exception.SpacePointAlreadyRegisteredException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,9 +22,23 @@ public class RecognitionControllerAdvice {
     }
 
     @ExceptionHandler(value = {SpacePointAlreadyRegisteredException.class})
-    public ResponseEntity<String> handleIndexOutOfBounds(SpacePointAlreadyRegisteredException ex) {
-        log.error("SpacePointAlreadyRegisteredException: {}", ex.getMessage());
+    public ResponseEntity<String> handleSpacePointAlreadyRegistered(SpacePointAlreadyRegisteredException ex) {
+        log.warn("SpacePointAlreadyRegisteredException: {}", ex.getMessage());
         return new ResponseEntity<>(String.format("Warning: %s", ex.getMessage()),
                 HttpStatus.OK);
+    }
+
+    @ExceptionHandler(value = {NotEnoughPointsRegisteredException.class})
+    public ResponseEntity<String> handleNotEnoughPointsRegistered(NotEnoughPointsRegisteredException ex) {
+        log.error("NotEnoughPointsRegisteredException: {}", ex.getMessage());
+        return new ResponseEntity<>(String.format("Error: %s", ex.getMessage()),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = {NotEnoughPointsException.class})
+    public ResponseEntity<String> handleNotEnoughPoints(NotEnoughPointsException ex) {
+        log.error("NotEnoughPointsException: {}", ex.getMessage());
+        return new ResponseEntity<>(String.format("Error: %s", ex.getMessage()),
+                HttpStatus.BAD_REQUEST);
     }
 }
