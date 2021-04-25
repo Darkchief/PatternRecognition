@@ -66,7 +66,8 @@ class RecognitionServiceImplTest {
         recognitionService = new RecognitionServiceImpl().setPlane(createCartesianPlane());
 
         Set<Line> spaceLines = recognitionService.retrieveLines(3);
-        System.out.println(spaceLines);
+        assertThat(spaceLines).hasSize(6);
+        assertTrue(spaceLines.contains(expectedLine()));
 
     }
 
@@ -85,5 +86,14 @@ class RecognitionServiceImplTest {
                 new Point(4, 4),
                 new Point(4, 3)
         );
+    }
+
+    private Line expectedLine() {
+        return new Line()
+                .addPoint(new Point(3, 4))
+                .addPoint(new Point(5, 2))
+                .addPoint(new Point(2, 5))
+                .addPoint(new Point(1, 6))
+                .addPoint(new Point(4, 3));
     }
 }
