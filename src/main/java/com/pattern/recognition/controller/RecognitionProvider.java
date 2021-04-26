@@ -31,6 +31,6 @@ public interface RecognitionProvider {
 
     @DeleteMapping(value = "/space",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Void> deleteSpace();
+    ResponseEntity<Void> deletePlane();
 
 }

@@ -5,6 +5,7 @@ import com.pattern.recognition.model.Line;
 import com.pattern.recognition.model.Point;
 import com.pattern.recognition.model.PointRequest;
 import com.pattern.recognition.service.RecognitionService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -14,6 +15,7 @@ import java.util.TreeSet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Slf4j
 class RecognitionServiceImplTest {
 
     private RecognitionService recognitionService;
@@ -22,35 +24,35 @@ class RecognitionServiceImplTest {
     public void addPointTest() {
         recognitionService = new RecognitionServiceImpl().setPlane(new TreeSet<>());
 
-        Point spacePointToAdd = new Point(3, 4);
+        Point pointToAdd = new Point(3, 4);
         PointRequest request = new PointRequest()
-                .setX(spacePointToAdd.getX())
-                .setY(spacePointToAdd.getY());
+                .setX(pointToAdd.getX())
+                .setY(pointToAdd.getY());
 
         recognitionService.addPointInPlane(request);
         assertThat(recognitionService.retrievePlane()).hasSize(1);
-        assertThat(recognitionService.retrievePlane().contains(spacePointToAdd));
+        assertTrue(recognitionService.retrievePlane().contains(pointToAdd));
 
         try {
             recognitionService.addPointInPlane(request);
         } catch (PointAlreadyRegisteredException ex) {
-
+            log.info("The point {} has not been added to the plane because it already exists", pointToAdd);
         }
-        // Verify that point [3,4], already present in the space, is not added to it
+        // Verify that point [3,4], already present in the plane, is not added to it
         assertThat(recognitionService.retrievePlane()).hasSize(1);
 
-        spacePointToAdd = new Point(10, 5);
+        pointToAdd = new Point(10, 5);
         recognitionService.addPointInPlane(new PointRequest()
-                .setX(spacePointToAdd.getX())
-                .setY(spacePointToAdd.getY()));
+                .setX(pointToAdd.getX())
+                .setY(pointToAdd.getY()));
 
-        SortedSet<Point> space = recognitionService.retrievePlane();
-        assertThat(space).hasSize(2);
-        assertTrue(space.contains(spacePointToAdd));
+        SortedSet<Point> plane = recognitionService.retrievePlane();
+        assertThat(plane).hasSize(2);
+        assertTrue(plane.contains(pointToAdd));
     }
 
     @Test
-    void deleteSpaceTest() {
+    void deletePlaneTest() {
         recognitionService = new RecognitionServiceImpl().setPlane(createCartesianPlane());
 
         recognitionService.deletePlane();
@@ -61,9 +63,9 @@ class RecognitionServiceImplTest {
     void retrieveLinesTest() {
         recognitionService = new RecognitionServiceImpl().setPlane(createCartesianPlane());
 
-        Set<Line> spaceLines = recognitionService.retrieveLines(3);
-        assertThat(spaceLines).hasSize(6);
-        assertTrue(spaceLines.contains(expectedLine()));
+        Set<Line> lines = recognitionService.retrieveLines(3);
+        assertThat(lines).hasSize(6);
+        assertTrue(lines.contains(expectedLine()));
 
     }
 

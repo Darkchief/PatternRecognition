@@ -6,7 +6,7 @@ points, and return all points involved.
 This application exposes four API tha allows you to generate a cartesian plane and determine every line that contains at
 least N collinear points.
 
-The first API gives you the possibility to add a point in the space, use postman creating a POST request with 
+The first API gives you the possibility to add a point in the plane, use postman creating a POST request with 
 the following body: 
 {
     "x" : integer value of x,

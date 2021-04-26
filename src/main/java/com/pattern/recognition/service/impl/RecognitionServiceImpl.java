@@ -52,7 +52,7 @@ public class RecognitionServiceImpl implements RecognitionService {
      */
     @Override
     public SortedSet<Point> retrievePlane() {
-        log.info("Retrieve plane: {}", plane);
+        log.debug("Retrieve plane: {}", plane);
         return plane;
     }
 
@@ -71,6 +71,8 @@ public class RecognitionServiceImpl implements RecognitionService {
             throw new NotEnoughPointsRegisteredException("In order to generate a segment, the plane must contain " +
                     "at least 2 points");
         }
+        log.info("Starts retrieveLines method, segments with at least {} collinear points will be searched",
+                collinearPoints);
 
         SortedSet<Line> lines = new TreeSet<>();
         for (Point originPoint : plane) {
@@ -85,8 +87,9 @@ public class RecognitionServiceImpl implements RecognitionService {
 
                 // Now we have all the points ordered by slope, as soon as a point with a different slope is found,
                 // we can save the segment obtained so far and start a new segment
-                if (!CollectionUtils.isEmpty(referenceLine.getSegment())
-                        && !referenceLine.first().slopeTo(orderedPoint).equals(referenceLine.last().slopeTo(orderedPoint))) {
+                if (!CollectionUtils.isEmpty(referenceLine.getSegment()) &&
+                        !referenceLine.first().slopeTo(orderedPoint)
+                                .equals(referenceLine.last().slopeTo(orderedPoint))) {
 
                     // We only save the segment if it has at least {collinearPoints} collinear points
                     if (referenceLine.getSegment().size() >= collinearPoints) {
@@ -102,7 +105,7 @@ public class RecognitionServiceImpl implements RecognitionService {
             }
         }
 
-        log.debug("Lines retrieved: {}", lines);
+        log.debug("Segments retrieved: {}", lines);
         return lines;
     }
 

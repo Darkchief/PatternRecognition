@@ -64,7 +64,7 @@ public class RecognitionController implements RecognitionProvider {
      * @return 200 OK
      */
     @Override
-    public ResponseEntity<Void> deleteSpace() {
+    public ResponseEntity<Void> deletePlane() {
         recognitionService.deletePlane();
         return ResponseEntity.status(HttpStatus.OK).build();
     }
